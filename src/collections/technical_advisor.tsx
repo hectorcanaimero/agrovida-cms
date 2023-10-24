@@ -1,38 +1,56 @@
 import { buildCollection, buildProperty } from "firecms";
-import { localeCollection } from "./locales.tsx";
 
-export type Blog = {
-  name: string;
-  description: string;
-  categories: string[];
-  file_upload: string;
+export type TechnicalAdvisor = {
+  fullName: string;
+  bio: string;
+  email: string;
+  phone: string;
+  specialty: string;
+  avatar: string;
+  user: string;
   status: string;
   published: boolean;
+  created_on: Date,
+  updated_on: Date,
   expires_on: Date
 }
 
-
-export const blogsCollection = buildCollection<Blog>({
-  name: "Boletín Agro",
-  singularName: "blog",
-  path: "blogs",
-  icon: "RssFeed",
+export const technicalAdvisorCollection = buildCollection<TechnicalAdvisor>({
+  name: "Asesores Técnicos",
+  singularName: "advisor",
+  path: "advisors",
+  icon: "PersonPin",
   group: "CMS",
   permissions: (): object => ({ read: true, edit: true, create: true, delete: true }),
   properties: {
-    name: {
-      name: "Titulo",
+    fullName: {
+      name: "Nombre Completo",
       validation: { required: true },
       dataType: "string"
     },
-    description: {
-      name: "Contenido",
+    email: {
+      name: "Correo Electrónico",
+      validation: { required: true },
+      dataType: "string"
+    },
+    phone: {
+      name: "Teléfono Contacto",
+      validation: { required: true },
+      dataType: "string"
+    },
+    specialty: {
+      name: "Especialidad",
+      validation: { required: true },
+      dataType: "string"
+    },
+    bio: {
+      name: "Bio",
       validation: { required: true },
       dataType: "string",
       markdown: true,
     },
-    file_upload: buildProperty({ // The `buildProperty` method is a utility function used for type checking
-      name: "Imagen de la Capa",
+    avatar: buildProperty({ // The `buildProperty` method is a utility function used for type checking
+      name: "Avatar",
       dataType: "string",
       storage: {
         storagePath: "blogs",
@@ -42,14 +60,10 @@ export const blogsCollection = buildCollection<Blog>({
         }
       }
     }),
-    categories: {
-      name: "Categoria",
-      description: "Categoria del Post",
-      validation: { required: false },
-      dataType: "array",
-      of: {
-        dataType: "string"
-      }
+    user: {
+      name: "Usuário",
+      validation: { required: true },
+      dataType: "string"
     },
     status: {
       name: "Status",
@@ -75,8 +89,19 @@ export const blogsCollection = buildCollection<Blog>({
 
     }),
     expires_on: {
-      name: "Expira el",
+      name: "Expira",
       dataType: "date"
+    },
+    created_on: {
+      name: "Creado",
+      dataType: "date",
+      autoValue: "on_create"
+    },
+    updated_on: {
+      name: "Actualizado",
+      dataType: "date",
+      autoValue: "on_update"
     }
   }
 });
+
